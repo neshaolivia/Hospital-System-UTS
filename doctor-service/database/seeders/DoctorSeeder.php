@@ -34,38 +34,6 @@ class DoctorSeeder extends Seeder
                 'email'          => 'hendra.saputra@hospital.com',
                 'status'         => 'Aktif',
             ],
-            [
-                'name'           => 'Dr. Hendra Saputra, Sp.B',
-                'specialization' => 'Bedah Umum',
-                'license_number' => 'STR-003-2024',
-                'phone'          => '083333333333',
-                'email'          => 'hendra.saputra@hospital.com',
-                'status'         => 'Aktif',
-            ],
-            [
-                'name'           => 'Dr. Hendra Saputra, Sp.B',
-                'specialization' => 'Bedah Umum',
-                'license_number' => 'STR-003-2024',
-                'phone'          => '083333333333',
-                'email'          => 'hendra.saputra@hospital.com',
-                'status'         => 'Aktif',
-            ],
-            [
-                'name'           => 'Dr. Hendra Saputra, Sp.B',
-                'specialization' => 'Bedah Umum',
-                'license_number' => 'STR-003-2024',
-                'phone'          => '083333333333',
-                'email'          => 'hendra.saputra@hospital.com',
-                'status'         => 'Aktif',
-            ],
-            [
-                'name'           => 'Dr. Hendra Saputra, Sp.B',
-                'specialization' => 'Bedah Umum',
-                'license_number' => 'STR-003-2024',
-                'phone'          => '083333333333',
-                'email'          => 'hendra.saputra@hospital.com',
-                'status'         => 'Aktif',
-            ],
         ];
 
         foreach ($doctors as $data) {
