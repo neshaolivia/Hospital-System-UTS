@@ -4,9 +4,7 @@
 
 ## Tech Stack
 
-**Core:**  HTML, CSS, JS, PHP
-
-**Framework & Library:** Laravel, Bootstrap, Laravel Breeze
+**Framework & Library:** Laravel
 
 **Database:** MySQL
 
