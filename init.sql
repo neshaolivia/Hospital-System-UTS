@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS patient_service;
+CREATE DATABASE IF NOT EXISTS doctor_service;
+CREATE DATABASE IF NOT EXISTS appointment_service;
+CREATE DATABASE IF NOT EXISTS medical_record_service;

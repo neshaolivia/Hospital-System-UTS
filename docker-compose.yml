@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+
+  # DATABASE
+  mysql:
+    image: mysql:8.0
+    container_name: hospital_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: patient_service
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - hospital_network
+
+  # PATIENT SERVICE
+  patient-service:
+    build:
+      context: ./patient-service
+      dockerfile: Dockerfile
+    container_name: patient_service
+    ports:
+      - "8001:8000"
+    environment:
+      APP_NAME: "Patient Service"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_HOST: sqlite
+      DB_PORT: 3306
+      DB_DATABASE: patient_service
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - hospital_network
+
+  # DOCTOR SERVICE
+  doctor-service:
+    build:
+      context: ./doctor-service
+      dockerfile: Dockerfile
+    container_name: doctor_service
+    ports:
+      - "8002:8000"
+    environment:
+      APP_NAME: "Doctor Service"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_HOST: sqlite
+      DB_PORT: 3306
+      DB_DATABASE: doctor_service
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - hospital_network
+
+  # APPOINTMENT SERVICE
+  appointment-service:
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: appointment_service
+    ports:
+      - "8003:8000"
+    environment:
+      APP_NAME: "Appointment Service"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_HOST: sqlite
+      DB_PORT: 3306
+      DB_DATABASE: appointment_service
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      PATIENT_SERVICE_URL: http://patient-service:8000
+      DOCTOR_SERVICE_URL: http://doctor-service:8000
+    depends_on:
+      - mysql
+      - patient-service
+      - doctor-service
+    networks:
+      - hospital_network
+
+  # MEDICAL RECORD SERVICE
+  medical-record-service:
+    build:
+      context: ./medical-record-service
+      dockerfile: Dockerfile
+    container_name: medical_record_service
+    ports:
+      - "8004:8000"
+    environment:
+      APP_NAME: "Medical Record Service"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_HOST: sqlite
+      DB_PORT: 3306
+      DB_DATABASE: medical_record_service
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      PATIENT_SERVICE_URL: http://patient-service:8000
+      APPOINTMENT_SERVICE_URL: http://appointment-service:8000
+    depends_on:
+      - mysql
+      - patient-service
+      - appointment-service
+    networks:
+      - hospital_network
+
+networks:
+  hospital_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
