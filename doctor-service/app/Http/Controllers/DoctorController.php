@@ -9,15 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DoctorController extends Controller
 {
-    // GET /api/doctors
     public function index()
     {
         $doctors = Doctor::all();
         return new DoctorResource($doctors, 'Success', 'List of doctors');
     }
 
-    // GET /api/doctors/{id}
-    public function show($id)
+    public function show(string $id)
     {
         $doctor = Doctor::find($id);
         if ($doctor) {
@@ -26,7 +24,6 @@ class DoctorController extends Controller
         return new DoctorResource(null, 'Failed', 'Doctor not found');
     }
 
-    // POST /api/doctors
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -46,8 +43,7 @@ class DoctorController extends Controller
         return new DoctorResource($doctor, 'Success', 'Doctor created successfully');
     }
 
-    // PUT /api/doctors/{id}
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
         $doctor = Doctor::find($id);
         if (!$doctor) {
@@ -71,8 +67,7 @@ class DoctorController extends Controller
         return new DoctorResource($doctor->fresh(), 'Success', 'Doctor updated successfully');
     }
 
-    // DELETE /api/doctors/{id}
-    public function destroy($id)
+    public function destroy(string $id)
     {
         $doctor = Doctor::find($id);
         if (!$doctor) {

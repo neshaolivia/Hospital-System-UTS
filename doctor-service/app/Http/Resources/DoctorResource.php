@@ -7,23 +7,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class DoctorResource extends JsonResource
 {
-    public $status;
-    public $message;
-    public $resource;
+    public string $status;
+    public string $message;
 
-    public function __construct($resource, $status, $message)
+    public function __construct(mixed $resource, string $status = 'Success', string $message = '')
     {
-        $this->status  = $status;
-        $this->message = $message;
         parent::__construct($resource);
+        $this->status = $status;
+        $this->message = $message;
     }
 
     public function toArray(Request $request): array
     {
         return [
-            'status'  => $this->status,
+            'status' => $this->status,
             'message' => $this->message,
-            'data'    => $this->resource,
+            'data' => $this->resource
         ];
     }
 }
