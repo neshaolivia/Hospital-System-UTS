@@ -1,43 +1,80 @@
-# HOSPITAL_SYSTEM
+Ah, aku paham maksudmu. Kelihatannya saat kamu menyalin teks sebelumnya, format *code block* (tanda *backtick* atau ```) tidak ikut tersalin dengan sempurna sehingga berubah menjadi teks biasa bertuliskan "Bash".
 
+Untuk memperbaikinya, silakan hapus semua teks yang ada di editor GitHub kamu saat ini, lalu *copy* semua teks di dalam kotak hitam di bawah ini (gunakan tombol *copy* di pojok kanan atas kotak agar formatnya tidak rusak) dan *paste* langsung ke sana:
 
+```markdown
+# Hospital System - UTS
+
+Sistem informasi manajemen rumah sakit berbasis Microservices yang dijalankan sepenuhnya di dalam environment Docker.
 
 ## Tech Stack
+- **Framework:** Laravel
+- **Database:** MySQL
+- **Message Broker:** RabbitMQ
+- **Infrastructure:** Docker & Docker Compose
 
-**Framework & Library:** Laravel
+## Arsitektur & Daftar Port
+Aplikasi ini terbagi menjadi beberapa layanan independen yang berjalan di port berikut:
+- **Patient Service:** `http://localhost:8001`
+- **Doctor Service:** `http://localhost:8002`
+- **Appointment Service:** `http://localhost:8003`
+- **Medical Record Service:** `http://localhost:8004`
+- **RabbitMQ Management UI:** `http://localhost:15672`
 
-**Database:** MySQL
+---
 
-# Installation
+## Cara Instalasi & Menjalankan Project
 
-Clone Project
+Pastikan **Docker Desktop** sudah terinstal dan berjalan di laptop sebelum memulai.
 
+### 1. Clone Repository
 ```bash
-  git clone https://github.com/neshaolivia/Hospital-System-UTS.git
-  cd Hospital-System-UTS
+git clone [https://github.com/neshaolivia/Hospital-System-UTS.git](https://github.com/neshaolivia/Hospital-System-UTS.git)
+cd Hospital-System-UTS
+
 ```
 
-Open & Install Project
+### 2. Jalankan Infrastruktur Docker
+
+Perintah ini akan secara otomatis mengunduh image, membangun container, dan menghubungkan semua service beserta database MySQL dan RabbitMQ di latar belakang.
 
 ```bash
-  composer install  
-  npm install
+docker-compose up -d --build
 
-  cp .env.example .env
-
-  php artisan migrate
-  # atau  
-  php artisan migrate --seed
-  # atau
-  php artisan migrate:fresh --seed
-
-  php artisan key:generate
 ```
 
-## Run Locally
+### 3. Migrasi Database
 
-Open Terminal
+Karena setiap service memiliki database yang terisolasi, jalankan perintah migrasi ini satu per satu untuk membuat tabel di masing-masing layanan:
 
 ```bash
-  composer run dev
+docker exec patient_service php artisan migrate
+docker exec doctor_service php artisan migrate
+docker exec appointment_service php artisan migrate
+docker exec medical_record_service php artisan migrate
+
+```
+
+### 4. Menjalankan Queue Worker (RabbitMQ)
+
+Khusus untuk service yang mengirim atau menerima pesan antrean (seperti Appointment Service), jalankan worker di terminal terpisah agar antrean diproses:
+
+```bash
+docker exec appointment_service php artisan queue:work
+
+```
+
+---
+
+## Cara Mematikan Sistem
+
+Untuk mematikan seluruh layanan tanpa menghapus data di database, gunakan perintah berikut di terminal utama:
+
+```bash
+docker-compose down
+
+```
+
+```
+
 ```
