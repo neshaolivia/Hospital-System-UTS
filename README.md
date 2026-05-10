@@ -1,7 +1,3 @@
-Ah, aku paham maksudmu. Kelihatannya saat kamu menyalin teks sebelumnya, format *code block* (tanda *backtick* atau ```) tidak ikut tersalin dengan sempurna sehingga berubah menjadi teks biasa bertuliskan "Bash".
-
-Untuk memperbaikinya, silakan hapus semua teks yang ada di editor GitHub kamu saat ini, lalu *copy* semua teks di dalam kotak hitam di bawah ini (gunakan tombol *copy* di pojok kanan atas kotak agar formatnya tidak rusak) dan *paste* langsung ke sana:
-
 ```markdown
 # Hospital System - UTS
 
